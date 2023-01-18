@@ -2,9 +2,6 @@ import sys
 import heapq
 input = sys.stdin.readline
 
-def resetDis():
-    for i in range(N+1): dis[i] = float("inf")
-
 def func(start):
     dis[start] = 0
     for _ in range(N-1):
