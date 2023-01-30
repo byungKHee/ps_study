@@ -7,7 +7,7 @@
 그래프의 노드 번호가 2차원일때, 특히 미로 문제에서는 한 점과 다른 점이 각각 (x,y), (z,w) 같은 식으로 연결된다. 이럴때는 각 지점을 숫자로 치환해서 그래프의 정점처럼 생각한다.
 
 (ex. 각 2차원 점을 딕션너리를 통해 1차원 점인 정점번호로 치환함)
-'''python
+```python
 for i in range(n):
     for j in range(n):
         if arr[i][j] == 'S' or arr[i][j] == 'K':
@@ -15,7 +15,7 @@ for i in range(n):
             to_node[(i,j)] = cnt
             cnt += 1
             temp.append((i, j))
-'''
+```
 
 ### 성능 요약
 
