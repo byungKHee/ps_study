@@ -2,6 +2,21 @@
 
 [문제 링크](https://www.acmicpc.net/problem/1944) 
 
+### 메모
+
+그래프의 노드 번호가 2차원일때, 특히 미로 문제에서는 한 점과 다른 점이 각각 (x,y), (z,w) 같은 식으로 연결된다. 이럴때는 각 지점을 숫자로 치환해서 그래프의 정점처럼 생각한다.
+
+(ex. 각 2차원 점을 딕션너리를 통해 1차원 점인 정점번호로 치환함)
+'''python
+for i in range(n):
+    for j in range(n):
+        if arr[i][j] == 'S' or arr[i][j] == 'K':
+            # 현재 위치에 대한 정점 번호를 to_node에 저장 후 정점 번호 1증가
+            to_node[(i,j)] = cnt
+            cnt += 1
+            temp.append((i, j))
+'''
+
 ### 성능 요약
 
 메모리: 41972 KB, 시간: 612 ms
