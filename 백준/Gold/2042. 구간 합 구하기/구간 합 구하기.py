@@ -43,4 +43,4 @@ for i in range(M+K):
     if a == 1:
         update(b-1, c)
     else:
-        print(subSum(1, 1, N+1, b, c+1))
+        print(subSum(1, 0, N, b-1, c))
