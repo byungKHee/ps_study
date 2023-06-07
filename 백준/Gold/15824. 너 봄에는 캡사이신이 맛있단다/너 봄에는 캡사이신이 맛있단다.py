@@ -4,20 +4,23 @@ input = sys.stdin.readline
 DIVIDE = 1_000_000_007
 
 def pow(n):
-    if n == 0:
-        return 1
-    if n == 1:
-        return 2
+    if dp[n] != -1:
+        return dp[n]
     if n % 2 == 0:
         half = pow(n//2)
-        return half * half % DIVIDE
+        dp[n] = half * half % DIVIDE
+        return dp[n]
     else:
         half = pow(n//2)
-        return half * half * 2 % DIVIDE
+        dp[n] = half * half * 2 % DIVIDE
+        return dp[n]
 
 N = int(input())
 arr = list(map(int, input().split()))
 arr.sort()
+dp = [-1] * (N+1)
+dp[0] = 1
+dp[1] = 2
 plus = 0
 minus = 0
 for i in range(N):
