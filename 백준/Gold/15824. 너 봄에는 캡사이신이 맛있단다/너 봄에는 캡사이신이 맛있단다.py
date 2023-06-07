@@ -21,14 +21,8 @@ arr.sort()
 dp = [-1] * (N+1)
 dp[0] = 1
 dp[1] = 2
-plus = 0
-minus = 0
+answer = 0
 for i in range(N):
-    if i == 0:
-        minus += arr[i] * (pow(N-i-1) - 1) % DIVIDE
-    elif i == N-1:
-        plus += arr[i] * (pow(i) - 1) % DIVIDE
-    else:
-        plus += arr[i] * (pow(i) - 1) % DIVIDE
-        minus += arr[i] * (pow(N-i-1) - 1) % DIVIDE
-print((plus - minus) % DIVIDE)
+    answer += (arr[i] * (pow(i) - 1)) - (arr[i] * (pow(N-i-1) - 1))
+    answer %= DIVIDE
+print(answer)
