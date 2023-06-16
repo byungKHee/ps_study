@@ -44,14 +44,6 @@ def update(idx, value):
             segTree[curr] = segTree[curr*2+1]
         curr //= 2
 
-def printTree(depth):
-    if 2**depth >= Size:
-        return
-    for i in range(2**depth, 2**(depth+1)):
-        print(segTree[i], end= ' ')
-    print()
-    printTree(depth+1)
-
 # input data
 N = int(input())
 arr = list(map(int, input().split()))
