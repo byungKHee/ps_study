@@ -1,5 +1,6 @@
 MOD = 1_000_000_007
 def solution(n):
+    if n % 2: return 0
     answer = 0
     dp = [0] * (n+1)
     dp[0] = 1
