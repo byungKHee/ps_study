@@ -1,29 +1,34 @@
-from collections import deque
-
+from bisect import bisect_left, bisect_right
+    
 
 def solution(queue1, queue2):
-    answer = 0
-    if (sum(queue1) + sum(queue2)) % 2 == 1:
+    arr = []
+    for n in queue1: arr.append(n)
+    for n in queue2: arr.append(n)
+    dp = [0]
+    for n in arr: dp.append(dp[-1] + n)
+    
+    if dp[-1] % 2 == 1:
         return -1
-    
-    q1 = deque(queue1)
-    q2 = deque(queue2)
-    q_sum1 = sum(queue1)
-    q_sum2 = sum(queue2)
+    if sum(queue1) == sum(queue2):
+        return 0
     size = len(queue1)
-    
-    while answer < 4*size:      
-        if q_sum1 > q_sum2:
-            n = q1.popleft()
-            q2.append(n)
-            q_sum1 -= n
-            q_sum2 += n
-        elif q_sum1 < q_sum2:
-            n = q2.popleft()
-            q1.append(n)
-            q_sum1 += n
-            q_sum2 -= n
-        else:
-            return answer
-        answer += 1
-    return -1
+    def func(l,r):
+        cnt = l
+        mid = size - 1
+        if mid < r:
+            cnt += r - mid            
+        elif mid > r:
+            cnt += size + r
+        return cnt
+    answer = 150000000
+    for i in range(len(dp)-1):
+        target = dp[-1] // 2 + dp[i]
+        left = bisect_left(dp, target, i+1)
+        right = bisect_right(dp, target, i+1)
+        if left != right:
+            answer = min(answer, func(i, left-1))
+            continue
+    if answer == 150000000:
+        return -1
+    return answer
