@@ -1,26 +1,18 @@
 from itertools import combinations
-from collections import defaultdict
+from collections import defaultdict, Counter
 def solution(orders, course):
     answer = []
     for n in course:
-        count = defaultdict(int)
+        count = Counter()
         for order in orders:
             if len(order) < n: continue
-            for comb in list(combinations(order, n)):
-                comb = sorted(list(comb))
-                curr = "".join(comb)
-                count[curr] += 1
-        M = 0
-        arr = []
-        for k,v in count.items():
-            if v < 2: continue
-            if M == v:
-                arr.append(k)
-            elif M < v:
-                arr.clear()
-                arr.append(k)
-                M = v
-        answer.extend(arr)
+            count.update(list(combinations(sorted(order), n)))
+        if not count: continue
+        most = count.most_common(1)[0][1]
+        if most < 2: continue
+        for k, v in count.items():
+            if v == most:
+                answer.append("".join(k))
 
     answer.sort()
     return answer
