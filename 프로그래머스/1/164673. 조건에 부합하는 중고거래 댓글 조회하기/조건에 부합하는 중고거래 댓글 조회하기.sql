@@ -1,0 +1,10 @@
+SELECT b.TITLE,
+    b.BOARD_ID,
+    r.REPLY_ID,
+    r.WRITER_ID,
+    r.CONTENTS,
+    DATE_FORMAT(r.CREATED_DATE, "%Y-%m-%d") as CREATED_DATE
+from USED_GOODS_BOARD as b, USED_GOODS_REPLY as r
+where b.BOARD_ID = r.BOARD_ID
+    and DATE_FORMAT(b.CREATED_DATE, "%Y-%m") = '2022-10'
+order by r.CREATED_DATE, b.TITLE
