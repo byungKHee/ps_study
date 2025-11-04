@@ -1,0 +1,11 @@
+-- 코드를 입력하세요
+SELECT DISTINCT C.CAR_ID
+FROM CAR_RENTAL_COMPANY_CAR as C
+WHERE exists (
+    select 1
+    FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY as H
+    WHERE H.CAR_ID = C.CAR_ID
+        and MONTH(START_DATE) = 10
+)
+and C.CAR_TYPE = '세단'
+ORDER BY C.CAR_ID desc
