@@ -1,73 +1,63 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <iostream>
 
 using namespace std;
-
-int N = 0;
+int N;
 vector<vector<int>> graph;
-vector<int> indegree;
 vector<bool> visited;
+vector<bool> finished;
 
-int start_node;
-
-// 0: 막대, 1: 도넛, 2: 결합
-int findType(int curr){
+int dfs(int curr){
     visited[curr] = true;
-    int rnt = 0;
-    if (graph[curr].size() >= 2){
-        return 2;
+    // outdegree == 2 -> 3번 타입
+    if (graph[curr].size() == 2){
+        return 3;
     }
-    for(int& next : graph[curr]){
-        if(visited[next]){
-            rnt = 1;
-            break;
+    
+    for (int next : graph[curr]){
+        if (visited[next]){
+            return 1;
         }
-        rnt = findType(next);
-        if(!rnt){
-            break;
+        int rnt = dfs(next);
+        if (rnt != 2){
+            return rnt;
         }
     }
-    return rnt;
+    return 2;
 }
 
 vector<int> solution(vector<vector<int>> edges) {
-    vector<int> answer(4, 0);
-
-    for(const auto& node : edges){
-        N = max({N, node[0], node[1]});
+    vector<int> answer(4,0);
+    N = 0;
+    for (auto a : edges){
+        N = max(N, max(a[0], a[1]));
     }
     graph.resize(N+1);
-    indegree.resize(N+1, 0);
+    vector<int> indegree(N+1, 0);
+    vector<int> outdegree(N+1, 0);
     visited.resize(N+1, false);
-    for(const auto& node : edges){
-        graph[node[0]].push_back(node[1]);
-        indegree[node[1]]++;
+    finished.resize(N+1, false);
+    for(auto edge : edges) {
+        int s = edge[0], e = edge[1];
+        graph[s].push_back(e);
+        indegree[e] += 1;
+        outdegree[s] += 1;
     }
-    // 시작 노드 찾기
-    int M = 0;
-    for(int i = 1; i < N+1; i++){
-        if(indegree[i]) continue;
-        if(M < graph[i].size()){
-            start_node = i;
-            M = graph[i].size();
+    for (int node = 1; node <= N; node++){
+        if (indegree[node] == 0 && outdegree[node] >= 2){
+            answer[0] = node;
         }
     }
-    cout << start_node << endl;
-    answer[0] = start_node;
     
-    for(int& next : graph[start_node]){
-        int rnt = findType(next);
-        if(rnt == 0){
-            answer[2]++;
-        }
-        else if(rnt == 1){
-            answer[1]++;
-        }
-        else{
-            answer[3]++;
-        }
+    for (int target : graph[answer[0]]) {
+        // for (int i = 1; i <= N; i++){
+        //     visited[i] = false;
+        //     finished[i] = false;
+        // }
+        visited[answer[0]] = true;
+        answer[dfs(target)]++;
     }
+    
     return answer;
 }
